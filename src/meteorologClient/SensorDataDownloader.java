@@ -7,9 +7,9 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 
 public class SensorDataDownloader {
-    public static String[] downloadDataFromSensor() throws IOException{
+    public static String[] downloadDataFromSensor(String host) throws IOException{
         String[] sensorData = new String[4];
-        try (Socket socket = new Socket("192.168.1.67", 4415);
+        try (Socket socket = new Socket(host, 4415);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));) {
             socket.setSoTimeout(5000);
             boolean eof = false;

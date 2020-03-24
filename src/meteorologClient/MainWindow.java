@@ -4,18 +4,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainWindow extends JFrame implements ActionListener {
     public JFrame mainFrame;
-    JButton downloadData;
+    JButton downloadDataButton;
+    JButton exportToFileButton;
     MeteoSensorPanel sensor1;
     MeteoSensorPanel sensor2;
-    MeteoSensorPanel sensor3;
-    MeteoSensorPanel sensor4;
-    ArrayList<MeteoSensorPanel> sensorList;
+    ArrayList<MeteoSensorPanel> sensorList = new ArrayList<>();
     BorderLayout layout;
+    SaveDataToFile savePanel;
 
     public MainWindow() {
         super();
@@ -25,58 +24,58 @@ public class MainWindow extends JFrame implements ActionListener {
         mainFrame.setSize(750, 325);
         layout = new BorderLayout();
         mainFrame.setLayout(layout);
-        sensorList = new ArrayList<>();
+
 
         // Menu
         Menu menuBar = new Menu();
         mainFrame.setJMenuBar(Menu.menuBar);
 
-        this.addDownloadDataButton();
-        this.addSensors();
+        addButtons();
+        addSensors();
 
 
         mainFrame.setVisible(true);
     }
 
     JPanel downloadDataButtonPanel;
-    private void addDownloadDataButton() {
+
+    private void addButtons() {
         downloadDataButtonPanel = new JPanel();
-        downloadData = new JButton("Download Data");
-        downloadData.addActionListener(this);
-        downloadDataButtonPanel.add(downloadData);
+        downloadDataButton = new JButton("Download Data");
+        exportToFileButton = new JButton("Export data to file");
+
+        downloadDataButton.addActionListener(this);
+        exportToFileButton.addActionListener(this);
+
+        downloadDataButtonPanel.add(downloadDataButton);
+        downloadDataButtonPanel.add(exportToFileButton);
+
         mainFrame.add(downloadDataButtonPanel, BorderLayout.NORTH);
     }
 
     JPanel addSensorsPanel;
+
     private void addSensors() {
         addSensorsPanel = new JPanel();
-        sensor1 = new MeteoSensorPanel("Sensor DUPA 1");
+        sensor1 = new MeteoSensorPanel("Sensor 1", "192.168.56.240");
         addSensorsPanel.add(sensor1);
-        sensor2 = new MeteoSensorPanel("Sensor DUPA 2");
+        sensor2 = new MeteoSensorPanel("Sensor 2", "192.168.56.241");
         addSensorsPanel.add(sensor2);
-        sensor3 = new MeteoSensorPanel("Sensor DUPA 3");
-        addSensorsPanel.add(sensor3);
-        sensor4 = new MeteoSensorPanel("Sensor DUPA 4");
-        addSensorsPanel.add(sensor4);
         mainFrame.add(addSensorsPanel, BorderLayout.CENTER);
         sensorList.add(sensor1);
         sensorList.add(sensor2);
-        sensorList.add(sensor3);
-        sensorList.add(sensor4);
     }
 
     public void actionPerformed(ActionEvent event) {
         Object source = event.getSource();
-        if (source == downloadData) {
-            try {
-                for (MeteoSensorPanel panel : sensorList) {
-                    panel.downloadData();
-                }
-                repaint();
-            } catch (IOException e) {
-                System.out.println(e);
-                JOptionPane.showMessageDialog(null, "Connection refused!");
+        if (source == downloadDataButton) {
+            for (MeteoSensorPanel panel : sensorList) {
+                panel.downloadDataFromSensor();
             }
+            repaint();
+        }
+        if (source == exportToFileButton) {
+            savePanel = new SaveDataToFile(sensorList);
         }
     }
 
