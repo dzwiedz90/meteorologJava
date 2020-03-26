@@ -11,11 +11,10 @@ public class MainWindow extends JFrame implements ActionListener {
     JButton downloadDataButton;
     JButton exportToFileButton;
     JButton addNewSensorButton;
-    MeteoSensorPanel sensor1;
-    MeteoSensorPanel sensor2;
     ArrayList<MeteoSensorPanel> sensorList = new ArrayList<>();
     BorderLayout layout;
     SaveDataToFile savePanel;
+    JPanel addSensorsPanel;
 
     public MainWindow() {
         super();
@@ -32,8 +31,8 @@ public class MainWindow extends JFrame implements ActionListener {
         mainFrame.setJMenuBar(Menu.menuBar);
 
         addButtons();
-        addSensors();
-
+        addSensorsPanel = new JPanel();
+        mainFrame.add(addSensorsPanel, BorderLayout.CENTER);
 
         mainFrame.setVisible(true);
     }
@@ -57,17 +56,22 @@ public class MainWindow extends JFrame implements ActionListener {
         mainFrame.add(mainWindowButtonPanel, BorderLayout.NORTH);
     }
 
-    JPanel addSensorsPanel;
-
     private void addSensors() {
-        addSensorsPanel = new JPanel();
-        sensor1 = new MeteoSensorPanel("Sensor 1", "192.168.56.240");
-        addSensorsPanel.add(sensor1);
-        sensor2 = new MeteoSensorPanel("Sensor 2", "192.168.56.241");
-        addSensorsPanel.add(sensor2);
-        mainFrame.add(addSensorsPanel, BorderLayout.CENTER);
-        sensorList.add(sensor1);
-        sensorList.add(sensor2);
+        String name = getSensorName();
+        String ip = getIpAddress();
+        MeteoSensorPanel sensor = new MeteoSensorPanel(name, ip);
+        addSensorsPanel.add(sensor);
+        addSensorsPanel.validate();
+        addSensorsPanel.repaint();
+        sensorList.add(sensor);
+    }
+
+    private String getIpAddress() {
+        return JOptionPane.showInputDialog(null, "Enter sensor's IP address:");
+    }
+
+    private String getSensorName() {
+        return JOptionPane.showInputDialog(null, "Enter sensor's name:");
     }
 
     public void actionPerformed(ActionEvent event) {
@@ -80,6 +84,10 @@ public class MainWindow extends JFrame implements ActionListener {
         }
         if (source == exportToFileButton) {
             savePanel = new SaveDataToFile(sensorList);
+        }
+        if (source == addNewSensorButton) {
+            System.out.println("Dupa");
+            addSensors();
         }
     }
 
