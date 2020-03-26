@@ -10,6 +10,7 @@ public class MainWindow extends JFrame implements ActionListener {
     public JFrame mainFrame;
     JButton downloadDataButton;
     JButton exportToFileButton;
+    JButton addNewSensorButton;
     MeteoSensorPanel sensor1;
     MeteoSensorPanel sensor2;
     ArrayList<MeteoSensorPanel> sensorList = new ArrayList<>();
@@ -21,7 +22,7 @@ public class MainWindow extends JFrame implements ActionListener {
         mainFrame = new JFrame("MeteoSensor");
         mainFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLookAndFeel();
-        mainFrame.setSize(750, 325);
+        mainFrame.setSize(750, 350);
         layout = new BorderLayout();
         mainFrame.setLayout(layout);
 
@@ -37,20 +38,23 @@ public class MainWindow extends JFrame implements ActionListener {
         mainFrame.setVisible(true);
     }
 
-    JPanel downloadDataButtonPanel;
+    JPanel mainWindowButtonPanel;
 
     private void addButtons() {
-        downloadDataButtonPanel = new JPanel();
+        mainWindowButtonPanel = new JPanel();
+        addNewSensorButton = new JButton("Add new sensor");
         downloadDataButton = new JButton("Download Data");
         exportToFileButton = new JButton("Export data to file");
 
+        addNewSensorButton.addActionListener(this);
         downloadDataButton.addActionListener(this);
         exportToFileButton.addActionListener(this);
 
-        downloadDataButtonPanel.add(downloadDataButton);
-        downloadDataButtonPanel.add(exportToFileButton);
+        mainWindowButtonPanel.add(addNewSensorButton);
+        mainWindowButtonPanel.add(downloadDataButton);
+        mainWindowButtonPanel.add(exportToFileButton);
 
-        mainFrame.add(downloadDataButtonPanel, BorderLayout.NORTH);
+        mainFrame.add(mainWindowButtonPanel, BorderLayout.NORTH);
     }
 
     JPanel addSensorsPanel;

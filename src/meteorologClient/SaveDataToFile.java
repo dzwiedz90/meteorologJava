@@ -4,7 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -105,7 +107,10 @@ public class SaveDataToFile extends JFrame implements ActionListener {
             }
             out.close();
             frame.dispose();
+            Desktop.getDesktop().open(new File("C:\\Users\\upaci\\JavaProjects\\meteorolog"));
         } catch (FileNotFoundException e) {
+            System.out.println(e);
+        } catch (IOException e) {
             System.out.println(e);
         }
     }

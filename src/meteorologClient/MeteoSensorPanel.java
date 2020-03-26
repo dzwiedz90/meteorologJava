@@ -2,10 +2,13 @@ package meteorologClient;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class MeteoSensorPanel extends JPanel {
+public class MeteoSensorPanel extends JPanel implements ActionListener {
     JPanel sensorPanel;
+    JButton removeSensorButton;
     private String[] sensorData;
     private JLabel errorLabel;
     private JLabel windLabel;
@@ -22,9 +25,14 @@ public class MeteoSensorPanel extends JPanel {
         host = hostIn;
 
         sensorPanel = new JPanel();
-        sensorPanel.setBackground(Color.CYAN);
+        sensorPanel.setBackground(Color.LIGHT_GRAY);
 
         setSensorName();
+
+        removeSensorButton = new JButton("Remove");
+        removeSensorButton.addActionListener(this);
+        sensorPanel.add(removeSensorButton);
+
         setErrorLabel();
         setWindLabel();
         setTemperatureLabel();
@@ -41,7 +49,7 @@ public class MeteoSensorPanel extends JPanel {
         JLabel sensorName = new JLabel(name, SwingConstants.RIGHT);
         sensorName.setFont(new Font("", Font.PLAIN, 22));
         sensorName.setOpaque(true);
-        sensorName.setBackground(Color.GREEN);
+        sensorName.setBackground(Color.GRAY);
 
         sensorPanel.add(sensorName);
     }
@@ -118,11 +126,18 @@ public class MeteoSensorPanel extends JPanel {
     }
 
     public String[] getSensorData() {
-        if(!checkError()){
+        if (!checkError()) {
             return this.sensorData;
-        }
-        else {
+        } else {
             return null;
+        }
+    }
+
+    public void actionPerformed(ActionEvent event) {
+        Object source = event.getSource();
+        if (source == removeSensorButton) {
+            this.remove(sensorPanel);
+            repaint();
         }
     }
 }
