@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+
 public class MainWindow extends JFrame implements ActionListener {
     public JFrame mainFrame;
     JButton downloadDataButton;
@@ -15,13 +16,16 @@ public class MainWindow extends JFrame implements ActionListener {
     BorderLayout layout;
     SaveDataToFile savePanel;
     JPanel addSensorsPanel;
+    int sensorCounter = 0;
+    int mainFrameX = 500;
+    int mainFrameY = 350;
 
     public MainWindow() {
         super();
         mainFrame = new JFrame("MeteoSensor");
         mainFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLookAndFeel();
-        mainFrame.setSize(750, 350);
+        mainFrame.setSize(mainFrameX, mainFrameY);
         layout = new BorderLayout();
         mainFrame.setLayout(layout);
 
@@ -33,7 +37,6 @@ public class MainWindow extends JFrame implements ActionListener {
         addButtons();
         addSensorsPanel = new JPanel();
         mainFrame.add(addSensorsPanel, BorderLayout.CENTER);
-
         mainFrame.setVisible(true);
     }
 
@@ -64,6 +67,34 @@ public class MainWindow extends JFrame implements ActionListener {
         addSensorsPanel.validate();
         addSensorsPanel.repaint();
         sensorList.add(sensor);
+        sensorCounter += 1;
+        resizeMainWindow();
+    }
+
+    private void resizeMainWindow() {
+        switch (sensorCounter){
+            case 5:
+                resizeMainWindowSetSize();
+                break;
+            case 9:
+                resizeMainWindowSetSize();
+                break;
+            case 13:
+                resizeMainWindowSetSize();
+                break;
+            case 17:
+                resizeMainWindowSetSize();
+                break;
+            case 21:
+                resizeMainWindowSetSize();
+                break;
+        }
+    }
+
+    private void resizeMainWindowSetSize(){
+        mainFrameY += 230;
+        mainFrame.setSize(mainFrameX, mainFrameY);
+        mainFrame.repaint();
     }
 
     private String getIpAddress() {
@@ -86,7 +117,6 @@ public class MainWindow extends JFrame implements ActionListener {
             savePanel = new SaveDataToFile(sensorList);
         }
         if (source == addNewSensorButton) {
-            System.out.println("Dupa");
             addSensors();
         }
     }
