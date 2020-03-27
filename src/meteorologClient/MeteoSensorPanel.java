@@ -2,13 +2,10 @@ package meteorologClient;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class MeteoSensorPanel extends JPanel implements ActionListener {
+public class MeteoSensorPanel extends JPanel {
     JPanel sensorPanel;
-    JButton removeSensorButton;
     private String[] sensorData;
     private JLabel errorLabel;
     private JLabel windLabel;
@@ -18,6 +15,7 @@ public class MeteoSensorPanel extends JPanel implements ActionListener {
     private String host;
     private String name;
     private boolean error = true;
+    private JCheckBox deleteSensorCheckbox;
 
     public MeteoSensorPanel(String nameIn, String hostIn) {
         super();
@@ -28,11 +26,8 @@ public class MeteoSensorPanel extends JPanel implements ActionListener {
         sensorPanel.setBackground(Color.LIGHT_GRAY);
 
         setSensorName();
-
-        removeSensorButton = new JButton("Remove");
-        removeSensorButton.addActionListener(this);
-        sensorPanel.add(removeSensorButton);
-
+        deleteSensorCheckbox = new JCheckBox("Delete");
+        sensorPanel.add(deleteSensorCheckbox);
         setErrorLabel();
         setWindLabel();
         setTemperatureLabel();
@@ -52,6 +47,10 @@ public class MeteoSensorPanel extends JPanel implements ActionListener {
         sensorName.setBackground(Color.GRAY);
 
         sensorPanel.add(sensorName);
+    }
+
+    public boolean isDeleteSet(){
+        return deleteSensorCheckbox.isSelected();
     }
 
     private void setErrorLabel() {
@@ -125,19 +124,15 @@ public class MeteoSensorPanel extends JPanel implements ActionListener {
         return this.name;
     }
 
+    public void removeSensor() {
+        this.remove(sensorPanel);
+    }
+
     public String[] getSensorData() {
         if (!checkError()) {
             return this.sensorData;
         } else {
             return null;
-        }
-    }
-
-    public void actionPerformed(ActionEvent event) {
-        Object source = event.getSource();
-        if (source == removeSensorButton) {
-            this.remove(sensorPanel);
-            repaint();
         }
     }
 }

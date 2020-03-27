@@ -12,20 +12,19 @@ public class MainWindow extends JFrame implements ActionListener {
     JButton downloadDataButton;
     JButton exportToFileButton;
     JButton addNewSensorButton;
+    JButton deleteSensorsButton;
     ArrayList<MeteoSensorPanel> sensorList = new ArrayList<>();
     BorderLayout layout;
     SaveDataToFile savePanel;
     JPanel addSensorsPanel;
     int sensorCounter = 0;
-    int mainFrameX = 500;
-    int mainFrameY = 350;
 
     public MainWindow() {
         super();
         mainFrame = new JFrame("MeteoSensor");
         mainFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLookAndFeel();
-        mainFrame.setSize(mainFrameX, mainFrameY);
+        mainFrame.setSize(500, 350);
         layout = new BorderLayout();
         mainFrame.setLayout(layout);
 
@@ -45,14 +44,17 @@ public class MainWindow extends JFrame implements ActionListener {
     private void addButtons() {
         mainWindowButtonPanel = new JPanel();
         addNewSensorButton = new JButton("Add new sensor");
+        deleteSensorsButton = new JButton("Delete sensors");
         downloadDataButton = new JButton("Download Data");
         exportToFileButton = new JButton("Export data to file");
 
         addNewSensorButton.addActionListener(this);
+        deleteSensorsButton.addActionListener(this);
         downloadDataButton.addActionListener(this);
         exportToFileButton.addActionListener(this);
 
         mainWindowButtonPanel.add(addNewSensorButton);
+        mainWindowButtonPanel.add(deleteSensorsButton);
         mainWindowButtonPanel.add(downloadDataButton);
         mainWindowButtonPanel.add(exportToFileButton);
 
@@ -71,29 +73,41 @@ public class MainWindow extends JFrame implements ActionListener {
         resizeMainWindow();
     }
 
+    private void removeSensor() {
+        for (MeteoSensorPanel sensor : sensorList) {
+            if (sensor.isDeleteSet()) {
+                sensorCounter -= 1;
+                sensor.removeSensor();
+                resizeMainWindow();
+            }
+        }
+    }
+
     private void resizeMainWindow() {
-        switch (sensorCounter){
+        switch (sensorCounter) {
+            case 4:
+                resizedMainWindowSetSize(350);
+                break;
             case 5:
-                resizeMainWindowSetSize();
+                resizedMainWindowSetSize(580);
+                break;
+            case 8:
+                resizedMainWindowSetSize(580);
                 break;
             case 9:
-                resizeMainWindowSetSize();
+                resizedMainWindowSetSize(810);
+                break;
+            case 12:
+                resizedMainWindowSetSize(810);
                 break;
             case 13:
-                resizeMainWindowSetSize();
-                break;
-            case 17:
-                resizeMainWindowSetSize();
-                break;
-            case 21:
-                resizeMainWindowSetSize();
+                resizedMainWindowSetSize(1040);
                 break;
         }
     }
 
-    private void resizeMainWindowSetSize(){
-        mainFrameY += 230;
-        mainFrame.setSize(mainFrameX, mainFrameY);
+    private void resizedMainWindowSetSize(int size) {
+        mainFrame.setSize(500, size);
         mainFrame.repaint();
     }
 
@@ -118,6 +132,9 @@ public class MainWindow extends JFrame implements ActionListener {
         }
         if (source == addNewSensorButton) {
             addSensors();
+        }
+        if (source == deleteSensorsButton) {
+            removeSensor();
         }
     }
 
