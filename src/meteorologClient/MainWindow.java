@@ -17,14 +17,16 @@ public class MainWindow extends JFrame implements ActionListener {
     BorderLayout layout;
     SaveDataToFile savePanel;
     JPanel addSensorsPanel;
+    JPanel mainWindowButtonPanel;
     int sensorCounter = 0;
+
 
     public MainWindow() {
         super();
         mainFrame = new JFrame("MeteoSensor");
         mainFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLookAndFeel();
-        mainFrame.setSize(500, 350);
+        mainFrame.setSize(500, 380);
         layout = new BorderLayout();
         mainFrame.setLayout(layout);
 
@@ -39,8 +41,6 @@ public class MainWindow extends JFrame implements ActionListener {
         mainFrame.setVisible(true);
     }
 
-    JPanel mainWindowButtonPanel;
-
     private void addButtons() {
         mainWindowButtonPanel = new JPanel();
         addNewSensorButton = new JButton("Add new sensor");
@@ -53,10 +53,18 @@ public class MainWindow extends JFrame implements ActionListener {
         downloadDataButton.addActionListener(this);
         exportToFileButton.addActionListener(this);
 
-        mainWindowButtonPanel.add(addNewSensorButton);
-        mainWindowButtonPanel.add(deleteSensorsButton);
-        mainWindowButtonPanel.add(downloadDataButton);
-        mainWindowButtonPanel.add(exportToFileButton);
+        JPanel addingDeletingButtonsPanel = new JPanel();
+        JPanel downloadExportButtonsPanel = new JPanel();
+
+        addingDeletingButtonsPanel.add(addNewSensorButton);
+        addingDeletingButtonsPanel.add(deleteSensorsButton);
+        downloadExportButtonsPanel.add(downloadDataButton);
+        downloadExportButtonsPanel.add(exportToFileButton);
+
+        GridLayout layout2 = new GridLayout(2,1);
+        mainWindowButtonPanel.setLayout(layout2);
+        mainWindowButtonPanel.add(addingDeletingButtonsPanel);
+        mainWindowButtonPanel.add(downloadExportButtonsPanel);
 
         mainFrame.add(mainWindowButtonPanel, BorderLayout.NORTH);
     }
@@ -96,22 +104,22 @@ public class MainWindow extends JFrame implements ActionListener {
     private void resizeMainWindow() {
         switch (sensorCounter) {
             case 4:
-                resizedMainWindowSetSize(350);
+                resizedMainWindowSetSize(380);
                 break;
             case 5:
-                resizedMainWindowSetSize(580);
+                resizedMainWindowSetSize(600);
                 break;
             case 8:
-                resizedMainWindowSetSize(580);
+                resizedMainWindowSetSize(600);
                 break;
             case 9:
-                resizedMainWindowSetSize(810);
+                resizedMainWindowSetSize(830);
                 break;
             case 12:
-                resizedMainWindowSetSize(810);
+                resizedMainWindowSetSize(830);
                 break;
             case 13:
-                resizedMainWindowSetSize(1040);
+                resizedMainWindowSetSize(1060);
                 break;
         }
     }
