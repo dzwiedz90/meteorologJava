@@ -74,12 +74,22 @@ public class MainWindow extends JFrame implements ActionListener {
     }
 
     private void removeSensor() {
+        ArrayList<MeteoSensorPanel> sensorsToRemoveArray = new ArrayList<>();
         for (MeteoSensorPanel sensor : sensorList) {
             if (sensor.isDeleteSet()) {
                 sensorCounter -= 1;
                 sensor.removeSensor();
                 resizeMainWindow();
+                sensorsToRemoveArray.add(sensor);
+                mainFrame.repaint();
             }
+        }
+        removeSensorsFromSensorList(sensorsToRemoveArray);
+    }
+
+    private void removeSensorsFromSensorList(ArrayList<MeteoSensorPanel> sensorsToRemoveArray) {
+        for (MeteoSensorPanel sensor : sensorsToRemoveArray) {
+            sensorList.remove(sensor);
         }
     }
 
