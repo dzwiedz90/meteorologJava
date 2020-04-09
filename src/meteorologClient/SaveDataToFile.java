@@ -105,9 +105,10 @@ public class SaveDataToFile extends JFrame implements ActionListener {
                 Date now2 = new Date();
                 out.println(now2 + " " + sensor.getSensorName() + " " + Arrays.toString(sensor.getSensorData()));
             }
+            System.out.println(System.getProperty("user.dir"));
             out.close();
             frame.dispose();
-            Desktop.getDesktop().open(new File("C:\\Users\\upaci\\JavaProjects\\meteorolog"));
+            Desktop.getDesktop().open(new File(System.getProperty("user.dir")));
         } catch (FileNotFoundException e) {
             System.out.println(e);
         } catch (IOException e) {
