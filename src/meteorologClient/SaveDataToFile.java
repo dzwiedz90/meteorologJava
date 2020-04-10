@@ -65,24 +65,19 @@ public class SaveDataToFile extends JFrame implements ActionListener {
         Object source = event.getSource();
         ArrayList<MeteoSensorPanel> toPrint = new ArrayList<>();
         ArrayList<MeteoSensorPanel> withError = new ArrayList<>();
+        ArrayList<MeteoSensorPanel> doNothing = new ArrayList<>();
         if (source == saveToFileButton) {
             for (int i = 0; i < sensorList.size(); i++) {
                 if ((sensorList.get(i).getSensorData() != null) && (checkBoxList.get(i).isSelected())) {
                     toPrint.add(sensorList.get(i));
-                } else {
+                } else if (((sensorList.get(i).getSensorData() == null) && (checkBoxList.get(i).isSelected()))) {
                     withError.add(sensorList.get(i));
+                } else if (((sensorList.get(i).getSensorData() == null) && (!checkBoxList.get(i).isSelected()))) {
+                    doNothing.add(sensorList.get(i));
                 }
             }
-            if (!toPrint.isEmpty()) {
-                saveToFile(toPrint, withError);
-                return;
-            }
-            if (!withError.isEmpty()) {
-                JOptionPane.showMessageDialog(frame,
-                        "There is no data to save or you didn't choose any sensor",
-                        "Data error",
-                        JOptionPane.ERROR_MESSAGE);
-            }
+
+            saveToFile(toPrint, withError, doNothing);
         }
         if (source == selectAllButton) {
             for (JCheckBox box : checkBoxList) {
@@ -96,23 +91,40 @@ public class SaveDataToFile extends JFrame implements ActionListener {
         }
     }
 
-    private void saveToFile(ArrayList<MeteoSensorPanel> toPrint, ArrayList<MeteoSensorPanel> withError) {
+    private void saveToFile(ArrayList<MeteoSensorPanel> toPrint, ArrayList<MeteoSensorPanel> withError, ArrayList<MeteoSensorPanel> doNothing) {
+        boolean checkWhatToDo = checkIfShouldSave(toPrint.isEmpty(), withError.isEmpty(), doNothing.isEmpty());
 
-        try {
-            Date now1 = new Date();
-            PrintWriter out = new PrintWriter("filename.txt");
-            for (MeteoSensorPanel sensor : toPrint) {
-                Date now2 = new Date();
-                out.println(now2 + " " + sensor.getSensorName() + " " + Arrays.toString(sensor.getSensorData()));
+        if (checkWhatToDo) {
+            try {
+                Date now1 = new Date();
+                PrintWriter out = new PrintWriter("filename.txt");
+                for (MeteoSensorPanel sensor : toPrint) {
+                    Date now2 = new Date();
+                    out.println(now2 + " " + sensor.getSensorName() + " " + Arrays.toString(sensor.getSensorData()));
+                }
+                System.out.println(System.getProperty("user.dir"));
+                out.close();
+                frame.dispose();
+                Desktop.getDesktop().open(new File(System.getProperty("user.dir")));
+            } catch (FileNotFoundException e) {
+                System.out.println(e);
+            } catch (IOException e) {
+                System.out.println(e);
             }
-            System.out.println(System.getProperty("user.dir"));
-            out.close();
-            frame.dispose();
-            Desktop.getDesktop().open(new File(System.getProperty("user.dir")));
-        } catch (FileNotFoundException e) {
-            System.out.println(e);
-        } catch (IOException e) {
-            System.out.println(e);
+        } else {
+            JOptionPane.showMessageDialog(frame,
+                    "There is no data to save or you didn't choose any sensor",
+                    "Data error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
+    private boolean checkIfShouldSave(boolean toPrint, boolean withError, boolean doNothing) {
+        if ((!toPrint && withError && doNothing) || (!toPrint && withError && !doNothing)) {
+            return true;
+        } else {
+            return false;
         }
     }
 }
