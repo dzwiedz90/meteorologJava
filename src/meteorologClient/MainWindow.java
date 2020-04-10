@@ -39,6 +39,12 @@ public class MainWindow extends JFrame implements ActionListener {
         addSensorsPanel = new JPanel();
         mainFrame.add(addSensorsPanel, BorderLayout.CENTER);
         mainFrame.setVisible(true);
+        centerWindowOnScreen();
+    }
+
+    private void centerWindowOnScreen() {
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        mainFrame.setLocation(dim.width/2-mainFrame.getSize().width/2, dim.height/2-mainFrame.getSize().height/2);
     }
 
     private void addButtons() {
@@ -61,7 +67,7 @@ public class MainWindow extends JFrame implements ActionListener {
         downloadExportButtonsPanel.add(downloadDataButton);
         downloadExportButtonsPanel.add(exportToFileButton);
 
-        GridLayout layout2 = new GridLayout(2,1);
+        GridLayout layout2 = new GridLayout(2, 1);
         mainWindowButtonPanel.setLayout(layout2);
         mainWindowButtonPanel.add(addingDeletingButtonsPanel);
         mainWindowButtonPanel.add(downloadExportButtonsPanel);

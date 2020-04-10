@@ -37,6 +37,12 @@ public class SaveDataToFile extends JFrame implements ActionListener {
         addButtons();
 
         frame.setVisible(true);
+        centerWindowOnScreen();
+    }
+
+    private void centerWindowOnScreen() {
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setLocation(dim.width/2-frame.getSize().width/2, dim.height/2-frame.getSize().height/2);
     }
 
     private void addButtons() {
