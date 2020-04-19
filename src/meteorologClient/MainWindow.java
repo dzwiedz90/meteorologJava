@@ -26,7 +26,7 @@ public class MainWindow extends JFrame implements ActionListener {
         mainFrame = new JFrame("MeteoSensor");
         mainFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLookAndFeel();
-        mainFrame.setSize(500, 380);
+        mainFrame.setSize(500, 395);
         layout = new BorderLayout();
         mainFrame.setLayout(layout);
 
@@ -110,22 +110,22 @@ public class MainWindow extends JFrame implements ActionListener {
     private void resizeMainWindow() {
         switch (sensorCounter) {
             case 4:
-                resizedMainWindowSetSize(380);
+                resizedMainWindowSetSize(395);
                 break;
             case 5:
-                resizedMainWindowSetSize(600);
+                resizedMainWindowSetSize(620);
                 break;
             case 8:
-                resizedMainWindowSetSize(600);
+                resizedMainWindowSetSize(620);
                 break;
             case 9:
-                resizedMainWindowSetSize(830);
+                resizedMainWindowSetSize(850);
                 break;
             case 12:
-                resizedMainWindowSetSize(830);
+                resizedMainWindowSetSize(850);
                 break;
             case 13:
-                resizedMainWindowSetSize(1060);
+                resizedMainWindowSetSize(1080);
                 break;
         }
     }

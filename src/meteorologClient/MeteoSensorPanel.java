@@ -2,11 +2,14 @@ package meteorologClient;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class MeteoSensorPanel extends JPanel {
+public class MeteoSensorPanel extends JPanel implements ActionListener {
     JPanel sensorPanel;
     private String[] sensorData;
+    JLabel sensorName;
     private JLabel errorLabel;
     private JLabel windLabel;
     private JLabel temperatureLabel;
@@ -16,6 +19,7 @@ public class MeteoSensorPanel extends JPanel {
     private String name;
     private boolean error = true;
     private JCheckBox deleteSensorCheckbox;
+    JButton editSensorPropertiesButton;
 
     public MeteoSensorPanel(String nameIn, String hostIn) {
         super();
@@ -28,6 +32,9 @@ public class MeteoSensorPanel extends JPanel {
         setSensorName();
         deleteSensorCheckbox = new JCheckBox("Delete");
         sensorPanel.add(deleteSensorCheckbox);
+        editSensorPropertiesButton = new JButton("Edit properties");
+        editSensorPropertiesButton.addActionListener(this);
+        sensorPanel.add(editSensorPropertiesButton);
         setErrorLabel();
         setWindLabel();
         setTemperatureLabel();
@@ -41,7 +48,7 @@ public class MeteoSensorPanel extends JPanel {
     }
 
     private void setSensorName() {
-        JLabel sensorName = new JLabel(name, SwingConstants.RIGHT);
+        sensorName = new JLabel(name, SwingConstants.RIGHT);
         sensorName.setFont(new Font("", Font.PLAIN, 22));
         sensorName.setOpaque(true);
         sensorName.setBackground(Color.GRAY);
@@ -49,7 +56,7 @@ public class MeteoSensorPanel extends JPanel {
         sensorPanel.add(sensorName);
     }
 
-    public boolean isDeleteSet(){
+    public boolean isDeleteSet() {
         return deleteSensorCheckbox.isSelected();
     }
 
@@ -134,5 +141,20 @@ public class MeteoSensorPanel extends JPanel {
         } else {
             return null;
         }
+    }
+
+    public void actionPerformed(ActionEvent event) {
+        Object source = event.getSource();
+
+        if (source == editSensorPropertiesButton) {
+            editSensorProperties();
+        }
+    }
+
+    private void editSensorProperties() {
+        String name = JOptionPane.showInputDialog(null, "Enter sensor's name:");
+        String ip = JOptionPane.showInputDialog(null, "Enter sensor's IP address:");
+        sensorName.setText(name);
+        host = ip;
     }
 }
