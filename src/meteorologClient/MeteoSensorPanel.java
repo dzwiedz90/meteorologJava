@@ -23,8 +23,19 @@ public class MeteoSensorPanel extends JPanel implements ActionListener {
 
     public MeteoSensorPanel(String nameIn, String hostIn) {
         super();
-        name = nameIn;
-        host = hostIn;
+
+        if (nameIn.isEmpty()){
+            name = " ";
+        }
+        else{
+            name = nameIn;
+        }
+        if (hostIn.isEmpty()){
+            host = "null";
+        }
+        else{
+            host = hostIn;
+        }
 
         sensorPanel = new JPanel();
         sensorPanel.setBackground(Color.LIGHT_GRAY);
@@ -129,6 +140,10 @@ public class MeteoSensorPanel extends JPanel implements ActionListener {
 
     public String getSensorName() {
         return this.name;
+    }
+
+    public String getSensorIp() {
+        return this.host;
     }
 
     public void removeSensor() {
