@@ -87,6 +87,16 @@ public class MainWindow extends JFrame implements ActionListener {
         resizeMainWindow();
     }
 
+    protected void addSensors(String name, String ip){
+        MeteoSensorPanel sensor = new MeteoSensorPanel(name, ip);
+        addSensorsPanel.add(sensor);
+        addSensorsPanel.validate();
+        addSensorsPanel.repaint();
+        sensorList.add(sensor);
+        sensorCounter += 1;
+        resizeMainWindow();
+    }
+
     private void removeSensor() {
         ArrayList<MeteoSensorPanel> sensorsToRemoveArray = new ArrayList<>();
         for (MeteoSensorPanel sensor : sensorList) {

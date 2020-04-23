@@ -103,7 +103,7 @@ public class SaveDataToFile extends JFrame implements ActionListener {
         if (checkWhatToDo) {
             try {
                 Date now1 = new Date();
-                PrintWriter out = new PrintWriter("filename.txt");
+                PrintWriter out = new PrintWriter("sensor_data.txt");
                 for (MeteoSensorPanel sensor : toPrint) {
                     Date now2 = new Date();
                     out.println(now2 + " " + sensor.getSensorName() + " " + Arrays.toString(sensor.getSensorData()));
