@@ -32,7 +32,7 @@ public class MainWindow extends JFrame implements ActionListener {
 
 
         // Menu
-        Menu menuBar = new Menu();
+        Menu menuBar = new Menu(this);
         mainFrame.setJMenuBar(Menu.menuBar);
 
         addButtons();
